@@ -1,0 +1,1016 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#17171a;
+    --surface:#211f22;
+    --surface-2:#2a282c;
+    --text:#ece7dc;
+    --text-muted:#8f8b82;
+    --accent:#c9972e;
+    --accent-soft:#c9972e33;
+    --accent-2:#7a3b3b;
+    --line:#3a383d;
+    --paper:#ece7dc;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;padding:0;}
+  .ll-root{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'IBM Plex Mono',monospace;
+    min-height:100vh;
+    padding:28px 20px 60px;
+  }
+  .ll-header{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:16px;
+    margin-bottom:22px;
+  }
+  .ll-title{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:42px;
+    letter-spacing:2px;
+    color:var(--paper);
+    line-height:1;
+  }
+  .ll-title span{color:var(--accent);}
+  .ll-sub{
+    font-size:12px;
+    color:var(--text-muted);
+    letter-spacing:1px;
+    text-transform:uppercase;
+  }
+  .ll-tabs{
+    display:flex;
+    gap:4px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+    border-bottom:1px solid var(--line);
+  }
+  .ll-tab{
+    background:none;
+    border:none;
+    color:var(--text-muted);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    padding:10px 16px;
+    cursor:pointer;
+    border-bottom:2px solid transparent;
+    transition:color .15s ease, border-color .15s ease;
+  }
+  .ll-tab:hover{color:var(--text);}
+  .ll-tab.active{color:var(--accent);border-bottom:2px solid var(--accent);}
+  .ll-panel{display:none;}
+  .ll-panel.active{display:block;animation:fadein .2s ease;}
+  @keyframes fadein{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+
+  .ll-card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:3px;
+    padding:20px;
+    margin-bottom:16px;
+  }
+  .ll-label{
+    font-size:11px;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin-bottom:8px;
+    display:block;
+  }
+  .ll-hint{
+    font-size:12px;
+    color:var(--text-muted);
+    margin-top:6px;
+    line-height:1.5;
+  }
+  textarea,input,select{
+    width:100%;
+    background:var(--surface-2);
+    border:1px solid var(--line);
+    color:var(--text);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    padding:10px 12px;
+    border-radius:2px;
+    resize:vertical;
+  }
+  textarea:focus,input:focus,select:focus{
+    outline:none;
+    border-color:var(--accent);
+  }
+  .ll-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px;}
+  .ll-row > div{flex:1;min-width:140px;}
+  .ll-btn{
+    background:var(--accent);
+    color:#17171a;
+    border:none;
+    font-family:'IBM Plex Mono',monospace;
+    font-weight:600;
+    font-size:12px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    padding:11px 20px;
+    border-radius:2px;
+    cursor:pointer;
+    transition:filter .15s ease;
+  }
+  .ll-btn:hover{filter:brightness(1.12);}
+  .ll-btn:disabled{opacity:.5;cursor:default;}
+  .ll-btn-ghost{
+    background:none;
+    border:1px solid var(--line);
+    color:var(--text);
+  }
+  .ll-btn-ghost:hover{border-color:var(--accent);color:var(--accent);}
+  .ll-section-list{display:flex;flex-direction:column;gap:8px;margin-bottom:12px;}
+  .ll-section-row{display:flex;gap:8px;align-items:center;}
+  .ll-section-row select, .ll-section-row input{flex:1;}
+  .ll-remove{
+    background:none;border:1px solid var(--line);color:var(--text-muted);
+    width:30px;height:30px;border-radius:2px;cursor:pointer;flex:0 0 auto;
+  }
+  .ll-remove:hover{color:var(--accent-2);border-color:var(--accent-2);}
+
+  .ll-page{
+    background:var(--paper);
+    color:#1c1a17;
+    border-radius:2px;
+    padding:22px 24px;
+    margin-top:16px;
+    position:relative;
+    box-shadow:0 6px 18px rgba(0,0,0,.35);
+    transform:rotate(-0.4deg);
+    font-size:13.5px;
+    line-height:1.75;
+    white-space:pre-wrap;
+    font-family:'IBM Plex Mono',monospace;
+  }
+  .ll-page::before{
+    content:"";
+    position:absolute;
+    top:0;left:0;right:0;
+    height:6px;
+    background:repeating-linear-gradient(90deg, transparent 0 8px, rgba(0,0,0,.08) 8px 10px);
+  }
+  .ll-page-label{
+    position:absolute;
+    top:-10px;left:16px;
+    background:var(--accent);
+    color:#17171a;
+    font-size:10px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    padding:3px 8px;
+    border-radius:2px;
+    font-weight:600;
+  }
+  .ll-loading{
+    color:var(--accent);
+    font-size:12px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    margin-top:12px;
+  }
+  .ll-error{
+    color:#d98080;
+    font-size:12px;
+    margin-top:10px;
+  }
+  .ll-empty{
+    color:var(--text-muted);
+    font-size:13px;
+    padding:20px 0;
+    text-align:center;
+    border:1px dashed var(--line);
+    border-radius:3px;
+  }
+  .ll-status{
+    font-size:11px;
+    color:var(--text-muted);
+    margin-top:4px;
+  }
+  .ll-status.ok{color:var(--accent);}
+  .ll-vocab-count{
+    display:inline-block;
+    background:var(--surface-2);
+    border:1px solid var(--line);
+    padding:2px 8px;
+    border-radius:2px;
+    font-size:11px;
+    color:var(--accent);
+    margin-left:8px;
+  }
+  .ll-search-results{margin-top:14px;display:flex;flex-direction:column;gap:6px;max-height:340px;overflow-y:auto;}
+  .ll-vocab-line{
+    background:var(--surface-2);
+    border:1px solid var(--line);
+    border-radius:2px;
+    padding:8px 10px;
+    font-size:12.5px;
+  }
+  .ll-vocab-line mark{background:var(--accent-soft);color:var(--accent);border-radius:2px;padding:0 2px;}
+</style>
+
+<div class="ll-root">
+  <div class="ll-header">
+    <div>
+      <div class="ll-title">LYRIC <span>LAB</span></div>
+      <div class="ll-sub">your vocab bank, your voice, your studio</div>
+    </div>
+    <div id="ll-vocab-status" class="ll-sub">no vocab bank loaded yet</div>
+  </div>
+
+  <div class="ll-tabs">
+    <button class="ll-tab active" data-tab="setup">Setup</button>
+    <button class="ll-tab" data-tab="vocab">My Vocab Bank</button>
+    <button class="ll-tab" data-tab="rhyme">Rhyme &amp; Lines</button>
+    <button class="ll-tab" data-tab="ideas">Idea Generator</button>
+    <button class="ll-tab" data-tab="song">Song Builder</button>
+    <button class="ll-tab" data-tab="beatflow">Beat &amp; Flow</button>
+  </div>
+
+  <!-- SETUP -->
+  <div class="ll-panel active" data-panel="setup">
+    <div class="ll-card">
+      <span class="ll-label">Vocab Bank</span>
+      <textarea id="setup-vocab" rows="10" placeholder="Paste your notes doc / vocab bank here — lines, phrases, half-written ideas, single words you love, whatever you've collected over the years."></textarea>
+      <div class="ll-hint">Paste it once. It's saved on this device and every tool below pulls from it.</div>
+    </div>
+    <div class="ll-card">
+      <span class="ll-label">Genre / Lane</span>
+      <input id="setup-genre" placeholder="e.g. Hip-Hop, R&B, Melodic Rap" />
+      <div class="ll-hint">This shapes structure suggestions, flow, and vocabulary throughout the tool — e.g. hook-first structures and 16-bar verses instead of generic pop/rock framing.</div>
+    </div>
+    <div class="ll-card">
+      <span class="ll-label">Your Style, In Your Words</span>
+      <textarea id="setup-style" rows="4" placeholder="e.g. Confessional, conversational, lots of internal rhyme, short punchy lines in the chorus, longer winding verses. Themes I return to. Anything that's distinctly you."></textarea>
+    </div>
+    <div class="ll-card">
+      <span class="ll-label">Artists / Influences (style only — never copied)</span>
+      <textarea id="setup-influences" rows="3" placeholder="e.g. Kendrick Lamar's internal rhyme density, Phoebe Bridgers' quiet imagery, Frank Ocean's loose song structure"></textarea>
+      <div class="ll-hint">These steer flow, rhyme density, and imagery style only. The tool never reproduces anyone's actual lyrics — only your own vocab bank and new original lines.</div>
+    </div>
+    <div class="ll-card">
+      <span class="ll-label">Anthropic API key (for the AI tools)</span>
+      <input type="password" id="setup-apikey" placeholder="sk-ant-..." autocomplete="off" style="width:100%;">
+      <div class="ll-hint">Stored only in this browser. Get one at console.anthropic.com. The vocab search works without a key.</div>
+    </div>
+    <button class="ll-btn" id="btn-save-profile">Save Profile</button>
+    <span id="save-status" class="ll-status"></span>
+  </div>
+
+  <!-- VOCAB VIEW -->
+  <div class="ll-panel" data-panel="vocab">
+    <div class="ll-card">
+      <span class="ll-label">Search Your Vocab Bank</span>
+      <input id="vocab-search" placeholder="Search a word, theme, or phrase..." />
+      <div id="vocab-results" class="ll-search-results"></div>
+    </div>
+  </div>
+
+  <!-- RHYME -->
+  <div class="ll-panel" data-panel="rhyme">
+    <div class="ll-card">
+      <span class="ll-label">Word or Line</span>
+      <input id="rhyme-input" placeholder="e.g. 'holding on' or just 'shadow'" />
+      <div class="ll-row" style="margin-top:14px;">
+        <div>
+          <span class="ll-label">Mood (optional)</span>
+          <input id="rhyme-mood" placeholder="e.g. bittersweet, defiant, tender" />
+        </div>
+      </div>
+      <button class="ll-btn" id="btn-rhyme">Find Rhymes &amp; Lines</button>
+      <div id="rhyme-loading" class="ll-loading" style="display:none;"></div>
+      <div id="rhyme-error" class="ll-error"></div>
+    </div>
+    <div id="rhyme-output"></div>
+  </div>
+
+  <!-- IDEAS -->
+  <div class="ll-panel" data-panel="ideas">
+    <div class="ll-card">
+      <span class="ll-label">Theme / Spark</span>
+      <textarea id="idea-theme" rows="3" placeholder="What's the song about? A feeling, a memory, a phrase stuck in your head — even one word is enough."></textarea>
+      <div class="ll-row" style="margin-top:10px;">
+        <div>
+          <span class="ll-label">How many ideas</span>
+          <select id="idea-count">
+            <option>5</option>
+            <option selected>8</option>
+            <option>12</option>
+          </select>
+        </div>
+      </div>
+      <button class="ll-btn" id="btn-ideas">Generate Ideas</button>
+      <div id="idea-loading" class="ll-loading" style="display:none;"></div>
+      <div id="idea-error" class="ll-error"></div>
+    </div>
+    <div id="idea-output"></div>
+  </div>
+
+  <!-- SONG BUILDER -->
+  <div class="ll-panel" data-panel="song">
+    <div class="ll-card">
+      <span class="ll-label">Song Basics</span>
+      <div class="ll-row">
+        <div>
+          <span class="ll-label">Title / Theme</span>
+          <input id="song-theme" placeholder="Working title or theme" />
+        </div>
+        <div>
+          <span class="ll-label">Key</span>
+          <select id="song-key">
+            <option>Not sure / skip</option>
+            <option>C major</option><option>G major</option><option>D major</option><option>A major</option><option>E major</option>
+            <option>A minor</option><option>E minor</option><option>D minor</option><option>B minor</option><option>F# minor</option>
+            <option>C minor</option><option>G minor</option>
+          </select>
+        </div>
+        <div>
+          <span class="ll-label">BPM</span>
+          <input id="song-bpm" type="number" placeholder="e.g. 92" />
+        </div>
+        <div>
+          <span class="ll-label">Target Length</span>
+          <input id="song-length" placeholder="e.g. 3:15" />
+        </div>
+      </div>
+      <div class="ll-hint" style="margin:4px 0 14px;">Not sure how to structure it yet? Fill in theme/BPM/key above, then:</div>
+      <button class="ll-btn-ghost" id="btn-suggest-structure" style="padding:9px 16px;font-size:11px;margin-bottom:6px;">Suggest a Structure For Me</button>
+      <div id="structure-loading" class="ll-loading" style="display:none;"></div>
+      <div id="structure-error" class="ll-error"></div>
+      <div id="structure-explainer"></div>
+      <span class="ll-label" style="display:block;margin-top:16px;">Song Structure</span>
+      <div class="ll-hint" style="margin-bottom:8px;">Set a rhyme scheme per section — or leave it on "Let AI choose" and it'll pick one that fits and explain why in the notes.</div>
+      <div id="section-list" class="ll-section-list"></div>
+      <button class="ll-btn-ghost" id="btn-add-section" style="padding:8px 14px;font-size:11px;">+ Add Section</button>
+    </div>
+    <button class="ll-btn" id="btn-song">Draft Song</button>
+    <div id="song-loading" class="ll-loading" style="display:none;"></div>
+    <div id="song-error" class="ll-error"></div>
+    <div id="song-output"></div>
+  </div>
+
+  <!-- BEAT & FLOW -->
+  <div class="ll-panel" data-panel="beatflow">
+    <div class="ll-card">
+      <span class="ll-label">Upload a Beat</span>
+      <div class="ll-hint" style="margin-bottom:8px;">Upload the instrumental. This estimates BPM and length by analyzing the audio's rhythmic energy — not AI, just signal analysis, so it works best on a track with a clear, steady pulse.</div>
+      <input type="file" id="beat-file" accept="audio/*" />
+      <div id="beat-status" class="ll-hint"></div>
+      <div id="beat-results" style="display:none;">
+        <div class="ll-row" style="margin-top:12px;">
+          <div><span class="ll-label">Estimated BPM</span><div id="beat-bpm-display" style="font-size:22px;color:var(--accent);"></div></div>
+          <div><span class="ll-label">Length</span><div id="beat-length-display" style="font-size:22px;color:var(--accent);"></div></div>
+        </div>
+        <button class="ll-btn-ghost" id="btn-use-beat" style="margin-top:10px;padding:8px 14px;font-size:11px;">Send BPM &amp; Length to Song Builder</button>
+      </div>
+    </div>
+
+    <div class="ll-card">
+      <span class="ll-label">Hum Your Flow</span>
+      <div class="ll-hint" style="margin-bottom:8px;">Upload a short voice memo of you humming or tapping the cadence you want — just the rhythm, no words needed. This detects where the hits land and asks Claude to write lines whose syllables fall in that same pattern.</div>
+      <input type="file" id="hum-file" accept="audio/*" />
+      <div id="hum-status" class="ll-hint"></div>
+      <div id="hum-results" style="display:none;margin-top:14px;">
+        <div class="ll-hint">Detected: <span id="hum-pattern-display" style="color:var(--accent);"></span></div>
+        <div class="ll-row" style="margin-top:10px;">
+          <div>
+            <span class="ll-label">What's this flow for</span>
+            <input id="hum-context" placeholder="e.g. the chorus hook line" />
+          </div>
+          <div>
+            <span class="ll-label">Lines to generate</span>
+            <input id="hum-lines" type="number" value="4" />
+          </div>
+        </div>
+        <button class="ll-btn" id="btn-hum-lyrics">Generate Standalone Lines</button>
+        <div id="hum-loading" class="ll-loading" style="display:none;"></div>
+        <div id="hum-error" class="ll-error"></div>
+        <div class="ll-hint" style="margin-top:16px;border-top:1px solid var(--line);padding-top:12px;">Or lock this exact cadence into a section of your full song draft:</div>
+        <div class="ll-row" style="margin-top:8px;">
+          <div>
+            <span class="ll-label">Apply to section</span>
+            <select id="hum-apply-section"></select>
+          </div>
+        </div>
+        <button class="ll-btn-ghost" id="btn-apply-hum-section" style="padding:8px 14px;font-size:11px;">Attach Flow to That Section</button>
+        <div id="hum-apply-status" class="ll-status"></div>
+      </div>
+    </div>
+    <div id="hum-output"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const $ = (sel, root=document) => root.querySelector(sel);
+  const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+
+  let profile = { vocab: '', style: '', influences: '' };
+
+  // Use the browser's localStorage when running as a standalone page
+  if(!window.storage){
+    window.storage = {
+      get: async (k) => { const v = localStorage.getItem(k); return v == null ? null : { value: v }; },
+      set: async (k, v) => { localStorage.setItem(k, v); return true; }
+    };
+  }
+  const keyInput = $('#setup-apikey');
+  if(keyInput){
+    keyInput.value = localStorage.getItem('anthropic_api_key') || '';
+    keyInput.addEventListener('change', () => localStorage.setItem('anthropic_api_key', keyInput.value.trim()));
+  }
+
+  // ---------- storage ----------
+  async function loadProfile(){
+    try{
+      const res = await window.storage.get('profile');
+      if(res && res.value){
+        profile = JSON.parse(res.value);
+        $('#setup-vocab').value = profile.vocab || '';
+        $('#setup-style').value = profile.style || '';
+        $('#setup-influences').value = profile.influences || '';
+        updateVocabStatus();
+      }
+    }catch(e){ /* no profile yet */ }
+  }
+
+  async function saveProfile(){
+    profile.vocab = $('#setup-vocab').value;
+    profile.style = $('#setup-style').value;
+    profile.influences = $('#setup-influences').value;
+    const statusEl = $('#save-status');
+    try{
+      const result = await window.storage.set('profile', JSON.stringify(profile));
+      if(result){
+        statusEl.textContent = 'Saved ✓';
+        statusEl.className = 'll-status ok';
+      } else {
+        statusEl.textContent = 'Save failed — try again.';
+        statusEl.className = 'll-status';
+      }
+    }catch(e){
+      statusEl.textContent = 'Save failed — try again.';
+      statusEl.className = 'll-status';
+    }
+    updateVocabStatus();
+  }
+
+  function updateVocabStatus(){
+    const lines = (profile.vocab||'').split('\n').filter(l=>l.trim().length>0);
+    const el = $('#ll-vocab-status');
+    if(lines.length === 0){
+      el.textContent = 'no vocab bank loaded yet';
+    } else {
+      el.innerHTML = `vocab bank loaded <span class="ll-vocab-count">${lines.length} lines</span>`;
+    }
+  }
+
+  // ---------- tabs ----------
+  $$('.ll-tab').forEach(tab=>{
+    tab.addEventListener('click', ()=>{
+      $$('.ll-tab').forEach(t=>t.classList.remove('active'));
+      $$('.ll-panel').forEach(p=>p.classList.remove('active'));
+      tab.classList.add('active');
+      $(`.ll-panel[data-panel="${tab.dataset.tab}"]`).classList.add('active');
+      if(tab.dataset.tab === 'beatflow') refreshHumSectionOptions();
+    });
+  });
+
+  $('#btn-save-profile').addEventListener('click', saveProfile);
+
+  // ---------- vocab search ----------
+  $('#vocab-search').addEventListener('input', (e)=>{
+    const q = e.target.value.trim().toLowerCase();
+    const container = $('#vocab-results');
+    container.innerHTML = '';
+    if(!q){ return; }
+    const lines = (profile.vocab||'').split('\n').filter(l=>l.trim().length>0);
+    const matches = lines.filter(l=>l.toLowerCase().includes(q)).slice(0,60);
+    if(matches.length === 0){
+      container.innerHTML = '<div class="ll-empty">No matches in your vocab bank.</div>';
+      return;
+    }
+    matches.forEach(line=>{
+      const div = document.createElement('div');
+      div.className = 'll-vocab-line';
+      const idx = line.toLowerCase().indexOf(q);
+      const escaped = line.replace(/</g,'&lt;');
+      const before = escaped.slice(0, idx);
+      const match = escaped.slice(idx, idx+q.length);
+      const after = escaped.slice(idx+q.length);
+      div.innerHTML = `${before}<mark>${match}</mark>${after}`;
+      container.appendChild(div);
+    });
+  });
+
+  // ---------- API helper ----------
+  async function callClaude(systemPrompt, userPrompt, maxTokens=1200){
+    const apiKey = localStorage.getItem('anthropic_api_key') || '';
+    const headers = { "Content-Type": "application/json" };
+    if(apiKey){
+      headers["x-api-key"] = apiKey;
+      headers["anthropic-version"] = "2023-06-01";
+      headers["anthropic-dangerous-direct-browser-access"] = "true";
+    }
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers,
+      body: JSON.stringify({
+        model: "claude-sonnet-4-6",
+        max_tokens: maxTokens,
+        system: systemPrompt,
+        messages: [{ role: "user", content: userPrompt }]
+      })
+    });
+    if(!response.ok){
+      throw new Error(apiKey ? ('API request failed: ' + response.status) : 'Add your Anthropic API key in Setup to use the AI tools.');
+    }
+    const data = await response.json();
+    return data.content.map(b => b.text || '').join('\n').trim();
+  }
+
+  function vocabSample(maxChars=6000){
+    const v = profile.vocab || '';
+    if(v.length <= maxChars) return v;
+    // sample from start, middle, end so long banks aren't just truncated at the head
+    const third = Math.floor(maxChars/3);
+    return v.slice(0,third) + '\n...\n' + v.slice(Math.floor(v.length/2), Math.floor(v.length/2)+third) + '\n...\n' + v.slice(-third);
+  }
+
+  function baseSystemPrompt(){
+    return `You are a personal songwriting collaborator for one specific writer. You have access to a sample of their own personal vocab/lyric notebook below, plus their stated style and stylistic influences.
+
+WRITER'S VOCAB BANK (their own words/lines/ideas — pull from and remix these freely, they own them):
+"""
+${vocabSample()}
+"""
+
+WRITER'S STYLE, IN THEIR OWN WORDS: ${profile.style || '(not specified)'}
+STYLISTIC INFLUENCES (for flow, rhyme density, and imagery approach ONLY): ${profile.influences || '(not specified)'}
+
+CRITICAL RULES:
+- Never quote or reproduce actual lyrics from any real song or artist. Influences listed above describe a general stylistic direction only (e.g. rhyme density, imagery style, structural looseness) — never copy specific lines, hooks, or phrases from any real artist's actual catalog.
+- Everything you generate must be original, written fresh for this writer, in their voice.
+- Prefer pulling and remixing phrases from their own vocab bank above generic phrasing.
+- Be specific and concrete, not generic-greeting-card language.`;
+  }
+
+  // ---------- Rhyme & Lines ----------
+  $('#btn-rhyme').addEventListener('click', async ()=>{
+    const input = $('#rhyme-input').value.trim();
+    if(!input){ return; }
+    const mood = $('#rhyme-mood').value.trim();
+    const loading = $('#rhyme-loading');
+    const errorEl = $('#rhyme-error');
+    const output = $('#rhyme-output');
+    errorEl.textContent = '';
+    loading.style.display = 'block';
+    loading.textContent = 'digging through your notebook...';
+    $('#btn-rhyme').disabled = true;
+    try{
+      const sys = baseSystemPrompt();
+      const user = `The writer gave this word or line: "${input}"${mood ? ' | mood: ' + mood : ''}.
+
+Give:
+1. 6-10 rhyme/near-rhyme words or short phrases that fit this word's sound, prioritizing ones that also match the writer's vocab bank vocabulary level and themes where possible.
+2. 5-8 full lines that could follow or pair with "${input}" — pulling and remixing phrases from the writer's own vocab bank wherever it fits naturally, filling gaps with original lines in their style.
+
+Format as two clearly labeled sections: "RHYMES & NEAR-RHYMES" and "LINES TO TRY". Keep it tight, no long preamble.`;
+      const result = await callClaude(sys, user, 900);
+      const div = document.createElement('div');
+      div.className = 'll-page';
+      div.innerHTML = `<span class="ll-page-label">from your lab</span>${result.replace(/</g,'&lt;')}`;
+      output.prepend(div);
+    }catch(e){
+      errorEl.textContent = (e && /API key/.test(e.message)) ? e.message : 'Something went wrong generating that — try again.';
+    }finally{
+      loading.style.display = 'none';
+      $('#btn-rhyme').disabled = false;
+    }
+  });
+
+  // ---------- Idea Generator ----------
+  $('#btn-ideas').addEventListener('click', async ()=>{
+    const theme = $('#idea-theme').value.trim();
+    if(!theme){ return; }
+    const count = $('#idea-count').value;
+    const loading = $('#idea-loading');
+    const errorEl = $('#idea-error');
+    const output = $('#idea-output');
+    errorEl.textContent = '';
+    loading.style.display = 'block';
+    loading.textContent = 'chasing the idea down...';
+    $('#btn-ideas').disabled = true;
+    try{
+      const sys = baseSystemPrompt();
+      const user = `The writer's spark/theme: "${theme}".
+
+Generate ${count} distinct song ideas or hook/line concepts built from this spark. Each one should feel like it grew out of the writer's own vocab bank and stated style — not a generic take on the theme. For each idea give: a one-line concept, and 1-2 sample lines showing how it could sound. Number them. No long preamble, just the list.`;
+      const result = await callClaude(sys, user, 1400);
+      const div = document.createElement('div');
+      div.className = 'll-page';
+      div.innerHTML = `<span class="ll-page-label">from your lab</span>${result.replace(/</g,'&lt;')}`;
+      output.prepend(div);
+    }catch(e){
+      errorEl.textContent = (e && /API key/.test(e.message)) ? e.message : 'Something went wrong generating that — try again.';
+    }finally{
+      loading.style.display = 'none';
+      $('#btn-ideas').disabled = false;
+    }
+  });
+
+  // ---------- Song Builder ----------
+  const sectionTypes = ['Verse','Pre-Chorus','Chorus','Bridge','Hook','Intro','Outro'];
+  const rhymeSchemeOptions = ['Let AI choose','AABB','ABAB','ABCB','AAAA','AAAB (switch on last line)','Free / no strict rhyme'];
+  function addSectionRow(type){
+    const list = $('#section-list');
+    const row = document.createElement('div');
+    row.className = 'll-section-row';
+    const select = document.createElement('select');
+    sectionTypes.forEach(t=>{
+      const opt = document.createElement('option');
+      opt.value = t; opt.textContent = t;
+      if(t === type) opt.selected = true;
+      select.appendChild(opt);
+    });
+    const rhymeSelect = document.createElement('select');
+    rhymeSelect.className = 'll-rhyme-select';
+    rhymeSchemeOptions.forEach(r=>{
+      const opt = document.createElement('option');
+      opt.value = r; opt.textContent = r;
+      rhymeSelect.appendChild(opt);
+    });
+    const linesInput = document.createElement('input');
+    linesInput.placeholder = 'notes for this section (optional)';
+    const remove = document.createElement('button');
+    remove.className = 'll-remove';
+    remove.textContent = '×';
+    remove.addEventListener('click', ()=> row.remove());
+    row.appendChild(select);
+    row.appendChild(rhymeSelect);
+    row.appendChild(linesInput);
+    row.appendChild(remove);
+    list.appendChild(row);
+  }
+  $('#btn-add-section').addEventListener('click', ()=> addSectionRow('Verse'));
+  ['Verse','Chorus','Verse','Chorus','Bridge','Chorus'].forEach(addSectionRow);
+
+  $('#btn-suggest-structure').addEventListener('click', async ()=>{
+    const theme = $('#song-theme').value.trim();
+    const key = $('#song-key').value;
+    const bpm = $('#song-bpm').value;
+    const songLength = $('#song-length').value.trim();
+    if(!theme){ $('#structure-error').textContent = 'Add a theme or working title first — structure follows from what the song is about.'; return; }
+    const loading = $('#structure-loading');
+    const errorEl = $('#structure-error');
+    errorEl.textContent = '';
+    loading.style.display = 'block';
+    loading.textContent = 'sketching out a shape...';
+    $('#btn-suggest-structure').disabled = true;
+    try{
+      const sectionTypeList = sectionTypes.join(', ');
+      const rhymeList = rhymeSchemeOptions.filter(r=>r!=='Let AI choose').join(', ');
+      const sys = `You are a songwriting structure advisor helping a writer who is actively learning song structure — explain your choices in plain, teachable terms, not jargon.`;
+      const user = `Theme/title: ${theme}
+Key: ${key === 'Not sure / skip' ? 'not specified' : key}
+BPM: ${bpm || 'not specified'}
+Target length: ${songLength || 'not specified'}
+
+Suggest a full song structure (ordered list of sections) that fits this theme, BPM, and target length. Only use these section types: ${sectionTypeList}. For each section, also suggest a rhyme scheme from only these options: ${rhymeList}.
+
+Respond with ONLY valid JSON, no markdown fences, no preamble, in exactly this shape:
+{
+  "sections": [
+    {"type": "Intro", "rhyme": "Free / no strict rhyme", "why": "one short plain-English sentence on this section's job here"}
+  ],
+  "overview": "2-3 sentences in plain, teachable language explaining the overall shape you chose and how the BPM/key/length influenced it — written to help someone learning structure, not just told the answer"
+}`;
+      const raw = await callClaude(sys, user, 1200);
+      const cleaned = raw.replace(/```json|```/g, '').trim();
+      const parsed = JSON.parse(cleaned);
+      if(!parsed.sections || !Array.isArray(parsed.sections) || parsed.sections.length === 0){
+        throw new Error('bad shape');
+      }
+      $('#section-list').innerHTML = '';
+      parsed.sections.forEach(s=>{
+        const validType = sectionTypes.includes(s.type) ? s.type : 'Verse';
+        addSectionRow(validType);
+        const rows = $$('.ll-section-row');
+        const row = rows[rows.length-1];
+        const [, rhymeSelect, notesInput] = row.querySelectorAll('select, input');
+        if(s.rhyme && rhymeSchemeOptions.includes(s.rhyme)) rhymeSelect.value = s.rhyme;
+        if(s.why) notesInput.value = s.why;
+      });
+      refreshHumSectionOptions();
+      const explainer = document.createElement('div');
+      explainer.className = 'll-page';
+      explainer.innerHTML = `<span class="ll-page-label">why this shape</span>${(parsed.overview||'').replace(/</g,'&lt;')}`;
+      $('#structure-explainer').innerHTML = '';
+      $('#structure-explainer').appendChild(explainer);
+    }catch(e){
+      errorEl.textContent = 'Could not generate a structure suggestion just now — try again.';
+    }finally{
+      loading.style.display = 'none';
+      $('#btn-suggest-structure').disabled = false;
+    }
+  });
+
+  $('#btn-song').addEventListener('click', async ()=>{
+    const theme = $('#song-theme').value.trim();
+    const key = $('#song-key').value;
+    const bpm = $('#song-bpm').value;
+    const songLength = $('#song-length').value.trim();
+    const sections = $$('.ll-section-row').map(row=>{
+      const [typeSelect, rhymeSelect, input] = row.querySelectorAll('select, input');
+      const humPattern = row.dataset.humPattern ? JSON.parse(row.dataset.humPattern) : null;
+      return { type: typeSelect.value, rhyme: rhymeSelect.value, notes: input.value.trim(), humPattern };
+    });
+    if(!theme){ $('#song-error').textContent = 'Give it at least a working title or theme.'; return; }
+    const loading = $('#song-loading');
+    const errorEl = $('#song-error');
+    const output = $('#song-output');
+    errorEl.textContent = '';
+    loading.style.display = 'block';
+    loading.textContent = 'setting up the track...';
+    $('#btn-song').disabled = true;
+    try{
+      const sys = baseSystemPrompt();
+      const structureDesc = sections.map((s,i)=>{
+        let line = `${i+1}. ${s.type} — rhyme scheme: ${s.rhyme}${s.notes ? ' — ' + s.notes : ''}`;
+        if(s.humPattern){
+          line += ` — LOCKED CADENCE: every line in this section must have ${s.humPattern.syllableCount} syllables, with stress falling on the gap pattern ${s.humPattern.pattern} (S=short gap, M=medium, L=long/held) — this came from the writer's own hummed rhythm and overrides normal line-length judgment for this section.`;
+        }
+        return line;
+      }).join('\n');
+      const user = `Draft a full song.
+
+Title/theme: ${theme}
+Key: ${key === 'Not sure / skip' ? 'not specified' : key}
+BPM: ${bpm || 'not specified'}
+Target length: ${songLength || 'not specified'}
+
+Structure (in order), with the rhyme scheme requested for each section:
+${structureDesc}
+
+Write full lyrics for every section listed, labeled clearly (e.g. "VERSE 1", "CHORUS"). Pull and remix phrases from the writer's own vocab bank wherever it fits.
+
+RHYME SCHEME RULES:
+- After each line, put a bracketed rhyme-scheme letter marking which lines rhyme with which, e.g. "...never let it show [A]" / "...somewhere I don't go [A]" / "...only friends I know [A]".
+- Where a section says "Let AI choose", pick a scheme that fits the section's role (e.g. tighter AABB for a chorus that needs to land hard, looser ABCB or free verse for a verse that needs room to breathe) and note your reasoning in the notes section below.
+- Where a section requests a specific scheme (not "Let AI choose"), follow it exactly.
+- Where any section has a LOCKED CADENCE noted above, treat the syllable count and gap pattern as a hard constraint for every line in that section — this takes priority over the rhyme scheme's usual line-length assumptions, though the rhyme scheme itself should still be honored within that constraint.
+- When the scheme changes between two consecutive sections (e.g. verse is ABCB, chorus is AABB), that switch should feel deliberate — usually tightening the rhyme scheme for a chorus/hook so it lands harder and loosening it for verses so they can carry more story detail.
+
+After the lyrics, add two short sections:
+"RHYME SCHEME NOTES" — for each section, name the scheme used and one sentence on why it fits that section's job in the song (or why it deliberately breaks from the previous section).
+"FLOW & DELIVERY NOTES" — how the BPM and key should shape phrasing and breath (denser/sparser syllables per bar, sitting behind or ahead of the beat, where to leave space), and how the chorus should contrast against the verses rhythmically. Keep both sections practical and specific, not generic songwriting advice.`;
+      const result = await callClaude(sys, user, 2200);
+      const div = document.createElement('div');
+      div.className = 'll-page';
+      div.innerHTML = `<span class="ll-page-label">draft</span>${result.replace(/</g,'&lt;')}`;
+      output.prepend(div);
+    }catch(e){
+      errorEl.textContent = (e && /API key/.test(e.message)) ? e.message : 'Something went wrong generating that — try again.';
+    }finally{
+      loading.style.display = 'none';
+      $('#btn-song').disabled = false;
+    }
+  });
+
+  // ---------- Beat & Flow: audio analysis (signal processing, no AI) ----------
+  let detectedBeat = { bpm: null, duration: null };
+  let detectedHumPattern = null;
+
+  async function decodeAudioFile(file){
+    const arrayBuffer = await file.arrayBuffer();
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    const ctx = new AudioCtx();
+    const audioBuffer = await ctx.decodeAudioData(arrayBuffer);
+    return audioBuffer;
+  }
+
+  function getMonoData(audioBuffer){
+    if(audioBuffer.numberOfChannels === 1) return audioBuffer.getChannelData(0);
+    const ch0 = audioBuffer.getChannelData(0);
+    const ch1 = audioBuffer.getChannelData(1);
+    const mono = new Float32Array(ch0.length);
+    for(let i=0;i<ch0.length;i++) mono[i] = (ch0[i]+ch1[i])/2;
+    return mono;
+  }
+
+  function computeEnergyEnvelope(data, windowSize){
+    const hop = windowSize;
+    const numWindows = Math.floor(data.length / hop);
+    const envelope = new Float32Array(numWindows);
+    for(let i=0;i<numWindows;i++){
+      let sum = 0;
+      const start = i*hop;
+      for(let j=0;j<windowSize;j++){
+        const v = data[start+j] || 0;
+        sum += v*v;
+      }
+      envelope[i] = Math.sqrt(sum/windowSize);
+    }
+    return { envelope, hop };
+  }
+
+  function findPeaks(envelope, thresholdRatio){
+    const peaks = [];
+    const windowSize = 43;
+    for(let i=1;i<envelope.length-1;i++){
+      const start = Math.max(0, i-windowSize);
+      const end = Math.min(envelope.length, i+windowSize);
+      let localSum = 0;
+      for(let k=start;k<end;k++) localSum += envelope[k];
+      const localMean = localSum/(end-start);
+      if(envelope[i] > localMean*thresholdRatio && envelope[i] > envelope[i-1] && envelope[i] >= envelope[i+1]){
+        peaks.push(i);
+      }
+    }
+    return peaks;
+  }
+
+  function estimateBPM(peaks, hop, sampleRate){
+    if(peaks.length < 2) return null;
+    const intervalsSec = [];
+    for(let i=1;i<peaks.length;i++){
+      const sec = ((peaks[i]-peaks[i-1])*hop)/sampleRate;
+      if(sec > 0.2 && sec < 2.0) intervalsSec.push(sec);
+    }
+    if(intervalsSec.length === 0) return null;
+    const bpmCounts = {};
+    intervalsSec.forEach(sec=>{
+      let bpm = 60/sec;
+      while(bpm < 70) bpm *= 2;
+      while(bpm > 190) bpm /= 2;
+      const rounded = Math.round(bpm);
+      bpmCounts[rounded] = (bpmCounts[rounded]||0)+1;
+    });
+    let bestBpm = null, bestCount = 0;
+    Object.keys(bpmCounts).forEach(bpm=>{
+      if(bpmCounts[bpm] > bestCount){ bestCount = bpmCounts[bpm]; bestBpm = parseInt(bpm); }
+    });
+    return bestBpm;
+  }
+
+  function detectOnsets(data, sampleRate){
+    const { envelope, hop } = computeEnergyEnvelope(data, 512);
+    const peaks = findPeaks(envelope, 1.5);
+    return peaks.map(p => (p*hop)/sampleRate);
+  }
+
+  function describeRhythmPattern(times){
+    if(times.length < 2) return null;
+    const iois = [];
+    for(let i=1;i<times.length;i++) iois.push(times[i]-times[i-1]);
+    const sorted = [...iois].sort((a,b)=>a-b);
+    const median = sorted[Math.floor(sorted.length/2)];
+    const letters = iois.map(ioi=>{
+      if(ioi < median*0.7) return 'S';
+      if(ioi > median*1.4) return 'L';
+      return 'M';
+    });
+    return { syllableCount: times.length, pattern: letters.join('-'), totalDuration: times[times.length-1]-times[0] };
+  }
+
+  $('#beat-file').addEventListener('change', async (e)=>{
+    const file = e.target.files[0];
+    if(!file) return;
+    const statusEl = $('#beat-status');
+    statusEl.textContent = 'analyzing the beat...';
+    $('#beat-results').style.display = 'none';
+    try{
+      const audioBuffer = await decodeAudioFile(file);
+      const data = getMonoData(audioBuffer);
+      const sampleRate = audioBuffer.sampleRate;
+      const duration = audioBuffer.duration;
+      const { envelope, hop } = computeEnergyEnvelope(data, 1024);
+      const peaks = findPeaks(envelope, 1.3);
+      const bpm = estimateBPM(peaks, hop, sampleRate);
+      detectedBeat = { bpm, duration };
+      statusEl.textContent = bpm ? 'analyzed ✓ (estimate)' : 'analyzed — tempo unclear on this file, enter BPM manually in Song Builder';
+      $('#beat-bpm-display').textContent = bpm ? bpm + ' BPM' : '—';
+      const mins = Math.floor(duration/60);
+      const secs = Math.round(duration%60);
+      $('#beat-length-display').textContent = `${mins}:${secs.toString().padStart(2,'0')}`;
+      $('#beat-results').style.display = 'block';
+    }catch(err){
+      statusEl.textContent = 'Could not analyze this file — try a standard mp3/wav/m4a.';
+    }
+  });
+
+  $('#btn-use-beat').addEventListener('click', ()=>{
+    if(detectedBeat.bpm) $('#song-bpm').value = detectedBeat.bpm;
+    if(detectedBeat.duration){
+      const mins = Math.floor(detectedBeat.duration/60);
+      const secs = Math.round(detectedBeat.duration%60);
+      $('#song-length').value = `${mins}:${secs.toString().padStart(2,'0')}`;
+    }
+    $$('.ll-tab').forEach(t=>t.classList.remove('active'));
+    $$('.ll-panel').forEach(p=>p.classList.remove('active'));
+    $('.ll-tab[data-tab="song"]').classList.add('active');
+    $('.ll-panel[data-panel="song"]').classList.add('active');
+  });
+
+  $('#hum-file').addEventListener('change', async (e)=>{
+    const file = e.target.files[0];
+    if(!file) return;
+    const statusEl = $('#hum-status');
+    statusEl.textContent = 'listening to the rhythm...';
+    $('#hum-results').style.display = 'none';
+    try{
+      const audioBuffer = await decodeAudioFile(file);
+      const data = getMonoData(audioBuffer);
+      const times = detectOnsets(data, audioBuffer.sampleRate);
+      const desc = describeRhythmPattern(times);
+      if(!desc){
+        statusEl.textContent = 'Could not detect a clear rhythm — try humming with more distinct, separated sounds.';
+        return;
+      }
+      detectedHumPattern = desc;
+      statusEl.textContent = 'pattern captured ✓ (estimate)';
+      $('#hum-pattern-display').textContent = `${desc.syllableCount} hits over ${desc.totalDuration.toFixed(1)}s — rhythm: ${desc.pattern} (S=short gap, M=medium, L=long/held)`;
+      $('#hum-results').style.display = 'block';
+      refreshHumSectionOptions();
+    }catch(err){
+      statusEl.textContent = 'Could not analyze this file — try a standard mp3/wav/m4a voice memo.';
+    }
+  });
+
+  function refreshHumSectionOptions(){
+    const select = $('#hum-apply-section');
+    select.innerHTML = '';
+    $$('.ll-section-row').forEach((row, i)=>{
+      const typeSelect = row.querySelector('select');
+      const opt = document.createElement('option');
+      opt.value = i;
+      opt.textContent = `${i+1}. ${typeSelect.value}`;
+      select.appendChild(opt);
+    });
+  }
+
+  $('#btn-apply-hum-section').addEventListener('click', ()=>{
+    if(!detectedHumPattern) return;
+    const idx = parseInt($('#hum-apply-section').value);
+    const rows = $$('.ll-section-row');
+    const row = rows[idx];
+    if(!row) return;
+    row.dataset.humPattern = JSON.stringify(detectedHumPattern);
+    let badge = row.querySelector('.ll-flow-badge');
+    if(!badge){
+      badge = document.createElement('span');
+      badge.className = 'll-flow-badge';
+      badge.style.cssText = 'font-size:10px;color:#17171a;background:var(--accent);padding:2px 6px;border-radius:2px;white-space:nowrap;';
+      row.appendChild(badge);
+    }
+    badge.textContent = 'flow attached';
+    $('#hum-apply-status').textContent = 'Attached ✓ — this section will follow your hummed cadence in the full draft.';
+    $('#hum-apply-status').className = 'll-status ok';
+  });
+
+  $('#btn-hum-lyrics').addEventListener('click', async ()=>{
+    if(!detectedHumPattern) return;
+    const context = $('#hum-context').value.trim();
+    const numLines = $('#hum-lines').value || 4;
+    const loading = $('#hum-loading');
+    const errorEl = $('#hum-error');
+    const output = $('#hum-output');
+    errorEl.textContent = '';
+    loading.style.display = 'block';
+    loading.textContent = 'fitting words to the rhythm...';
+    $('#btn-hum-lyrics').disabled = true;
+    try{
+      const sys = baseSystemPrompt();
+      const user = `The writer hummed a rhythm for: ${context || 'a section of the song'}.
+
+Detected pattern: ${detectedHumPattern.syllableCount} syllable-hits over about ${detectedHumPattern.totalDuration.toFixed(1)} seconds, with relative gap pattern: ${detectedHumPattern.pattern} (S = short gap before the next hit, M = medium gap, L = long/held gap).
+
+Write ${numLines} lines that each fit this exact cadence — same number of syllables as hits (${detectedHumPattern.syllableCount} per line), with natural word stress landing on the same short/medium/long gap pattern. After each line, mark each syllable's gap type in brackets, e.g. "I [S] don't [S] need [M] a [S] reason [L]". Pull from the writer's own vocab bank wherever it fits the rhythm. Finish with one honest sentence on where the fit is approximate rather than exact — this is an estimate, not an exact transcription.`;
+      const result = await callClaude(sys, user, 900);
+      const div = document.createElement('div');
+      div.className = 'll-page';
+      div.innerHTML = `<span class="ll-page-label">flow match</span>${result.replace(/</g,'&lt;')}`;
+      output.prepend(div);
+    }catch(e){
+      errorEl.textContent = (e && /API key/.test(e.message)) ? e.message : 'Something went wrong generating that — try again.';
+    }finally{
+      loading.style.display = 'none';
+      $('#btn-hum-lyrics').disabled = false;
+    }
+  });
+
+  loadProfile();
+})();
+</script>
